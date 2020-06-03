@@ -4,13 +4,47 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Fluent_WebView_Browser"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <controls:TabView Loaded="TabView_Loaded"
                           AddTabButtonClick="TabView_AddTabButtonClick"
-                          TabCloseRequested="TabView_TabCloseRequested"></controls:TabView>
+                          TabCloseRequested="TabView_TabCloseRequested"
+                          Grid.Row="0"/>
+        
+        <!--#region Action bar-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Style="{StaticResource ButtonRevealStyle}"
+                    Click="NavigationBackward">
+                <SymbolIcon Symbol="Back"/>
+            </Button>
+            <Button Grid.Column="1" Style="{StaticResource ButtonRevealStyle}"
+                    Click="NavigationForeward">
+                <SymbolIcon Symbol="Forward"/>
+            </Button>
+            <TextBox x:Name="HrefLocationTextBox"
+                     HorizontalAlignment="Stretch" Grid.Column="2"
+                     CharacterCasing="Normal" IsSpellCheckEnabled="False"
+                     KeyDown="HrefLocationTextBox_KeyDown"/>
+        </Grid>
+        <!--#endregion-->
+        <WebView x:Name="WebViewContent" Grid.Row="2" Source="https://www.google.com">
+        </WebView>
     </Grid>
 </Page>
