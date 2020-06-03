@@ -29,6 +29,14 @@ namespace Fluent_WebView_Browser {
 			(sender as TabView).TabItems.Add(CreateNewTab());
 		}
 
+		private void TabView_AddTabButtonClick(TabView sender, object args) {
+			sender.TabItems.Add(CreateNewTab());
+		}
+
+		private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args) {
+			sender.TabItems.Remove(args.Tab);
+		}
+
 		private TabViewItem CreateNewTab() {
 			TabViewItem newItem = new TabViewItem() {
 				Header = "New Tab"

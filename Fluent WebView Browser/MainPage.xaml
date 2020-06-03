@@ -9,6 +9,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <controls:TabView Loaded="TabView_Loaded"></controls:TabView>
+        <controls:TabView Loaded="TabView_Loaded"
+                          AddTabButtonClick="TabView_AddTabButtonClick"
+                          TabCloseRequested="TabView_TabCloseRequested"></controls:TabView>
     </Grid>
 </Page>
