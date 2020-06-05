@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -26,8 +25,14 @@ namespace Fluent_WebView_Browser {
 			this.InitializeComponent();
 		}
 
+		protected override void OnNavigatedTo(NavigationEventArgs e) {
+			base.OnNavigatedTo(e);
+
+		}
+
 		private void TabView_Loaded(object sender, RoutedEventArgs e) {
 			(sender as TabView).TabItems.Add(CreateNewTab());
+			//CreateNewTab().content
 		}
 
 		private void TabView_AddTabButtonClick(TabView sender, object args) {
@@ -40,37 +45,15 @@ namespace Fluent_WebView_Browser {
 
 		private TabViewItem CreateNewTab() {
 			TabViewItem newItem = new TabViewItem() {
-				Header = "New Tab"
+				Header = "New Tab",
+				IconSource = new Microsoft.UI.Xaml.Controls.SymbolIconSource() { Symbol = Symbol.Document },
+				Content = new TabContentControl()
 			};
 
 			return newItem;
 		}
 
-		private void HrefLocationTextBox_KeyDown(object sender, KeyRoutedEventArgs e) {
-			if (e.Key == VirtualKey.Enter)
-			// enter key pressed, load new page
-			{
-				try {
-					// construct new URI
-					Uri uri = new UriBuilder(HrefLocationTextBox.Text).Uri;
-					// load page
-					WebViewContent.Source = uri;
-				}
-				catch (Exception err) {
-					// reset href location text box
-					HrefLocationTextBox.Text = "";
-				}
-			}
-		}
-
-		private void NavigationBackward(object sender, RoutedEventArgs e) {
-			if (WebViewContent.CanGoBack)
-				WebViewContent.GoBack();
-		}
-
-		private void NavigationForeward(object sender, RoutedEventArgs e) {
-			if (WebViewContent.CanGoForward)
-				WebViewContent.GoForward();
+		private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 		}
 	}
 }
