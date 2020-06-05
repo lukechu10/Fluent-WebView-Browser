@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,6 +25,38 @@ namespace Fluent_WebView_Browser {
 	public sealed partial class MainPage : Page {
 		public MainPage() {
 			this.InitializeComponent();
+
+			var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+			coreTitleBar.ExtendViewIntoTitleBar = true;
+			coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+			
+			var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+			titleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
+			titleBar.ButtonInactiveBackgroundColor = Windows.UI.Colors.Transparent;
+
+			Window.Current.SetTitleBar(CustomDragRegion);
+		}
+
+		private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args) {
+			// To ensure that the tabs in the titlebar are not occluded by shell
+			// content, we must ensure that we account for left and right overlays.
+			// In LTR layouts, the right inset includes the caption buttons and the
+			// drag region, which is flipped in RTL. 
+
+			// The SystemOverlayLeftInset and SystemOverlayRightInset values are
+			// in terms of physical left and right. Therefore, we need to flip
+			// then when our flow direction is RTL.
+			if (FlowDirection == FlowDirection.LeftToRight) {
+				CustomDragRegion.MinWidth = sender.SystemOverlayRightInset;
+				ShellTitlebarInset.MinWidth = sender.SystemOverlayLeftInset;
+			}
+			else {
+				CustomDragRegion.MinWidth = sender.SystemOverlayLeftInset;
+				ShellTitlebarInset.MinWidth = sender.SystemOverlayRightInset;
+			}
+
+			// Ensure that the height of the custom regions are the same as the titlebar.
+			CustomDragRegion.Height = ShellTitlebarInset.Height = sender.Height;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e) {
