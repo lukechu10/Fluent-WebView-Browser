@@ -38,7 +38,7 @@
                      HorizontalAlignment="Stretch" Grid.Column="2"
                      CharacterCasing="Normal" IsSpellCheckEnabled="False"
                      KeyDown="HrefLocationTextBox_KeyDown"
-                     FocusEngaged="HrefLocationTextBox_FocusEngaged"/>
+                     GotFocus="HrefLocationTextBox_FocusEngaged"/>
         </Grid>
         <!--#endregion-->
         <WebView x:Name="WebViewContent" 

@@ -40,11 +40,6 @@ namespace Fluent_WebView_Browser {
 			}
 		}
 
-		private void HrefLocationTextBox_FocusEngaged(Control sender, FocusEngagedEventArgs args) {
-			// select all text in text box
-			(sender as TextBox).SelectAll();
-		}
-
 		private void NavigationBackward(object sender, RoutedEventArgs e) {
 			if (WebViewContent.CanGoBack)
 				WebViewContent.GoBack();
@@ -58,6 +53,10 @@ namespace Fluent_WebView_Browser {
 		private void WebViewContent_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
 			// update HrefLocationTextBox
 			HrefLocationTextBox.Text = args.Uri.ToString();
+		}
+
+		private void HrefLocationTextBox_FocusEngaged(object sender, RoutedEventArgs e) {
+			(sender as TextBox).SelectAll();
 		}
 	}
 }
