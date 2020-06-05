@@ -30,12 +30,19 @@ namespace Fluent_WebView_Browser {
 					Uri uri = new UriBuilder(HrefLocationTextBox.Text).Uri;
 					// load page
 					WebViewContent.Navigate(uri);
+					// remove focus from TextBox and set focus on WebView
+					WebViewContent.Focus(FocusState.Programmatic);
 				}
 				catch (Exception err) {
 					// reset href location text box
 					HrefLocationTextBox.Text = "";
 				}
 			}
+		}
+
+		private void HrefLocationTextBox_FocusEngaged(Control sender, FocusEngagedEventArgs args) {
+			// select all text in text box
+			(sender as TextBox).SelectAll();
 		}
 
 		private void NavigationBackward(object sender, RoutedEventArgs e) {
@@ -46,6 +53,11 @@ namespace Fluent_WebView_Browser {
 		private void NavigationForward(object sender, RoutedEventArgs e) {
 			if (WebViewContent.CanGoForward)
 				WebViewContent.GoForward();
+		}
+
+		private void WebViewContent_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
+			// update HrefLocationTextBox
+			HrefLocationTextBox.Text = args.Uri.ToString();
 		}
 	}
 }

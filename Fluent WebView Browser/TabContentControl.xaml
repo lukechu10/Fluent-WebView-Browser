@@ -34,14 +34,16 @@
                     Click="NavigationForward">
                 <SymbolIcon Symbol="Forward"/>
             </Button>
-            <TextBox x:Name="HrefLocationTextBox"
+            <TextBox x:Name="HrefLocationTextBox" PlaceholderText="Enter URL here..."
                      HorizontalAlignment="Stretch" Grid.Column="2"
                      CharacterCasing="Normal" IsSpellCheckEnabled="False"
-                     KeyDown="HrefLocationTextBox_KeyDown"/>
+                     KeyDown="HrefLocationTextBox_KeyDown"
+                     FocusEngaged="HrefLocationTextBox_FocusEngaged"/>
         </Grid>
         <!--#endregion-->
         <WebView x:Name="WebViewContent" 
                  Grid.Row="1"
-                 Source="https://www.google.com" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></WebView>
+                 Source="https://www.google.com" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 NavigationStarting="WebViewContent_NavigationStarting"/>
     </Grid>
 </UserControl>
