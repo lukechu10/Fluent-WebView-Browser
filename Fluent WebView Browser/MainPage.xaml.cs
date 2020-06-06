@@ -61,12 +61,10 @@ namespace Fluent_WebView_Browser {
 
 		protected override void OnNavigatedTo(NavigationEventArgs e) {
 			base.OnNavigatedTo(e);
-
 		}
 
 		private void TabView_Loaded(object sender, RoutedEventArgs e) {
 			(sender as TabView).TabItems.Add(CreateNewTab());
-			//CreateNewTab().content
 		}
 
 		private void TabView_AddTabButtonClick(TabView sender, object args) {
@@ -78,10 +76,17 @@ namespace Fluent_WebView_Browser {
 		}
 
 		private TabViewItem CreateNewTab() {
+			TabContentControl tabContent = new TabContentControl();
+
 			TabViewItem newItem = new TabViewItem() {
 				Header = "New Tab",
 				IconSource = new Microsoft.UI.Xaml.Controls.SymbolIconSource() { Symbol = Symbol.Document },
-				Content = new TabContentControl()
+				Content = tabContent
+			};
+
+			// attach title changed event
+			tabContent.DocumentTitleChangedEvent += (object sender, string title) => {
+				newItem.Header = title; // update newTab Header
 			};
 
 			return newItem;

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -19,6 +20,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Fluent_WebView_Browser {
 	public sealed partial class TabContentControl : UserControl {
+		public delegate void DocumentTitleChangedHandler(object sender, string title);
+
+		public event DocumentTitleChangedHandler DocumentTitleChangedEvent;
+
 		public TabContentControl() {
 			this.InitializeComponent();
 		}
@@ -40,6 +45,10 @@ namespace Fluent_WebView_Browser {
 					HrefLocationTextBox.Text = "";
 				}
 			}
+		}
+
+		private void HrefLocationTextBox_FocusEngaged(object sender, RoutedEventArgs e) {
+			(sender as TextBox).SelectAll();
 		}
 
 		private void NavigationBackward(object sender, RoutedEventArgs e) {
@@ -70,8 +79,10 @@ namespace Fluent_WebView_Browser {
 			HrefLocationTextBox.Text = beforeHost + host + afterHost;
 		}
 
-		private void HrefLocationTextBox_FocusEngaged(object sender, RoutedEventArgs e) {
-			(sender as TextBox).SelectAll();
+		private async void WebViewContent_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args) {
+			//string functionString = "new MutationObserver(function () { window.external.notify(document.title); }).observe(document.querySelector('title'), { childList: true })";
+			//await WebViewContent.InvokeScriptAsync("eval", new string[] { functionString });
+			DocumentTitleChangedEvent?.Invoke(this, WebViewContent.DocumentTitle);
 		}
 	}
 }
