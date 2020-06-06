@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -9,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -51,8 +53,21 @@ namespace Fluent_WebView_Browser {
 		}
 
 		private void WebViewContent_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
+			string host = args.Uri.Host;
+			string uri = args.Uri.ToString();
+			// get start and end of host string in uri
+			int hostStartIndex = uri.IndexOf(host);
+			int hostEndIndex = hostStartIndex + host.Length;
+
+			string beforeHost = uri.Substring(0, hostStartIndex);
+			string afterHost = uri.Substring(hostEndIndex); // get string until the end
+
+			Run beforeHostRun = new Run() { Text = beforeHost };
+			Run hostRun = new Run() { Text = host };
+			Run afterHostRun = new Run() { Text = afterHost };
+
 			// update HrefLocationTextBox
-			HrefLocationTextBox.Text = args.Uri.ToString();
+			HrefLocationTextBox.Text = beforeHost + host + afterHost;
 		}
 
 		private void HrefLocationTextBox_FocusEngaged(object sender, RoutedEventArgs e) {
