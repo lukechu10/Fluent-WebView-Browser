@@ -37,7 +37,9 @@ namespace Fluent_WebView_Browser {
 			// enter key pressed, load new page
 			{
 				try {
-					if (Uri.IsWellFormedUriString(HrefLocationTextBox.Text, UriKind.Absolute)) {
+					if (Uri.IsWellFormedUriString(HrefLocationTextBox.Text, UriKind.RelativeOrAbsolute) &&
+						/* make sure there is a '.' between domain name and top level domain  (e.g. ".com") */
+						HrefLocationTextBox.Text.Contains('.')) {
 						// construct new URI
 						Uri uri = new UriBuilder(HrefLocationTextBox.Text).Uri;
 						// load page
