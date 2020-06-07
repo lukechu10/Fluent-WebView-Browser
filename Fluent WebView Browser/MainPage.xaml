@@ -13,12 +13,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <controls:TabView Loaded="TabView_Loaded"
-                          AddTabButtonClick="TabView_AddTabButtonClick"
-                          TabCloseRequested="TabView_TabCloseRequested"
-                          SelectionChanged="TabView_SelectionChanged"
-                          Grid.Row="0" 
-                          VerticalAlignment="Stretch">
+        <controls:TabView x:Name="TabViewControl" Loaded="TabView_Loaded"
+            AddTabButtonClick="TabView_AddTabButtonClick"
+            TabCloseRequested="TabView_TabCloseRequested"
+            SelectionChanged="TabView_SelectionChanged"
+            Grid.Row="0" 
+            VerticalAlignment="Stretch">
             <controls:TabView.TabStripHeader>
                 <Grid x:Name="ShellTitlebarInset" Background="Transparent" />
             </controls:TabView.TabStripHeader>

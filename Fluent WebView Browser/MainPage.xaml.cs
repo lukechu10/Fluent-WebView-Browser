@@ -64,19 +64,19 @@ namespace Fluent_WebView_Browser {
 		}
 
 		private void TabView_Loaded(object sender, RoutedEventArgs e) {
-			(sender as TabView).TabItems.Add(CreateNewTab());
+			(sender as TabView).TabItems.Add(CreateNewTab(new Uri("https://www.google.com")));
 		}
 
 		private void TabView_AddTabButtonClick(TabView sender, object args) {
-			sender.TabItems.Add(CreateNewTab());
+			sender.TabItems.Add(CreateNewTab(new Uri("https://www.google.com")));
 		}
 
 		private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args) {
 			sender.TabItems.Remove(args.Tab);
 		}
 
-		private TabViewItem CreateNewTab() {
-			TabContentControl tabContent = new TabContentControl();
+		private TabViewItem CreateNewTab(Uri uri) {
+			TabContentControl tabContent = new TabContentControl(uri);
 
 			TabViewItem newItem = new TabViewItem() {
 				Header = "New Tab",
@@ -89,6 +89,11 @@ namespace Fluent_WebView_Browser {
 				newItem.Header = title; // update newTab Header
 			};
 
+			// attach new window requested event
+			tabContent.NewWindowRequested += (WebView sender, WebViewNewWindowRequestedEventArgs args) => {
+				TabViewControl.TabItems.Add(CreateNewTab(args.Uri));
+			};
+
 			return newItem;
 		}
 
@@ -97,7 +102,7 @@ namespace Fluent_WebView_Browser {
 
 		private void NewTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) {
 			var senderTabView = args.Element as TabView;
-			senderTabView.TabItems.Add(CreateNewTab());
+			senderTabView.TabItems.Add(CreateNewTab(new Uri("https://www.google.com")));
 			args.Handled = true;
 		}
 

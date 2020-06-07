@@ -21,11 +21,15 @@ using Windows.UI.Xaml.Navigation;
 namespace Fluent_WebView_Browser {
 	public sealed partial class TabContentControl : UserControl {
 		public delegate void DocumentTitleChangedHandler(object sender, string title);
-
 		public event DocumentTitleChangedHandler DocumentTitleChangedEvent;
 
-		public TabContentControl() {
+		public delegate void NewWindowRequestedHandler(WebView sender, WebViewNewWindowRequestedEventArgs args);
+		// WebView sent a new window request, create new tab
+		public event NewWindowRequestedHandler NewWindowRequested;
+
+		public TabContentControl(Uri uri) {
 			this.InitializeComponent();
+			WebViewContent.Source = uri;
 		}
 
 		private void HrefLocationTextBox_KeyDown(object sender, KeyRoutedEventArgs e) {
@@ -71,6 +75,14 @@ namespace Fluent_WebView_Browser {
 				WebViewContent.GoForward();
 		}
 
+		private void RefreshButton_Click(object sender, RoutedEventArgs e) {
+			// determine action based on current symbol icon
+			if (RefreshSymbol.Symbol == Symbol.Refresh)
+				WebViewContent.Refresh();
+			else if (RefreshSymbol.Symbol == Symbol.Cancel)
+				WebViewContent.Stop();
+		}
+
 		private void WebViewContent_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
 			// show stop loading button instead of refresh button
 			RefreshSymbol.Symbol = Symbol.Cancel;
@@ -101,12 +113,9 @@ namespace Fluent_WebView_Browser {
 			DocumentTitleChangedEvent?.Invoke(this, WebViewContent.DocumentTitle);
 		}
 
-		private void RefreshButton_Click(object sender, RoutedEventArgs e) {
-			// determine action based on current symbol icon
-			if (RefreshSymbol.Symbol == Symbol.Refresh)
-				WebViewContent.Refresh();
-			else if (RefreshSymbol.Symbol == Symbol.Cancel)
-				WebViewContent.Stop();
+		private void WebViewContent_NewWindowRequested(WebView sender, WebViewNewWindowRequestedEventArgs args) {
+			// forward event to NewWindowRequested event
+			NewWindowRequested?.Invoke(sender, args);
 		}
 	}
 }
