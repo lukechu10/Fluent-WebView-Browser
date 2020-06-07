@@ -24,6 +24,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Style="{StaticResource ButtonRevealStyle}"
@@ -34,8 +35,12 @@
                     Click="NavigationForward">
                 <SymbolIcon Symbol="Forward"/>
             </Button>
+            <Button Grid.Column="2" Style="{StaticResource ButtonRevealStyle}"
+                    Click="RefreshButton_Click">
+                <SymbolIcon x:Name="RefreshSymbol" Symbol="Refresh"/>
+            </Button>
             <TextBox x:Name="HrefLocationTextBox" PlaceholderText="Enter URL here..."
-                     HorizontalAlignment="Stretch" Grid.Column="2"
+                     HorizontalAlignment="Stretch" Grid.Column="3"
                      CharacterCasing="Normal" IsSpellCheckEnabled="False"
                      KeyDown="HrefLocationTextBox_KeyDown"
                      GotFocus="HrefLocationTextBox_FocusEngaged"/>
@@ -46,7 +51,6 @@
                  Source="https://www.google.com"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                  NavigationStarting="WebViewContent_NavigationStarting"
-                 NavigationCompleted="WebViewContent_NavigationCompleted"
-                 ScriptNotify="WebViewContent_ScriptNotify"/>
+                 NavigationCompleted="WebViewContent_NavigationCompleted"/>
     </Grid>
 </UserControl>

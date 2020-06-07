@@ -62,6 +62,9 @@ namespace Fluent_WebView_Browser {
 		}
 
 		private void WebViewContent_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
+			// show stop loading button instead of refresh button
+			RefreshSymbol.Symbol = Symbol.Cancel;
+
 			string host = args.Uri.Host;
 			string uri = args.Uri.ToString();
 			// get start and end of host string in uri
@@ -79,10 +82,21 @@ namespace Fluent_WebView_Browser {
 			HrefLocationTextBox.Text = beforeHost + host + afterHost;
 		}
 
-		private async void WebViewContent_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args) {
+		private void WebViewContent_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args) {
+			// show refresh button
+			RefreshSymbol.Symbol = Symbol.Refresh;
+
 			//string functionString = "new MutationObserver(function () { window.external.notify(document.title); }).observe(document.querySelector('title'), { childList: true })";
 			//await WebViewContent.InvokeScriptAsync("eval", new string[] { functionString });
 			DocumentTitleChangedEvent?.Invoke(this, WebViewContent.DocumentTitle);
+		}
+
+		private void RefreshButton_Click(object sender, RoutedEventArgs e) {
+			// determine action based on current symbol icon
+			if (RefreshSymbol.Symbol == Symbol.Refresh)
+				WebViewContent.Refresh();
+			else if (RefreshSymbol.Symbol == Symbol.Cancel)
+				WebViewContent.Stop();
 		}
 	}
 }
