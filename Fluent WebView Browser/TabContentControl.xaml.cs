@@ -33,12 +33,22 @@ namespace Fluent_WebView_Browser {
 			// enter key pressed, load new page
 			{
 				try {
-					// construct new URI
-					Uri uri = new UriBuilder(HrefLocationTextBox.Text).Uri;
-					// load page
-					WebViewContent.Navigate(uri);
-					// remove focus from TextBox and set focus on WebView
-					WebViewContent.Focus(FocusState.Programmatic);
+					if (Uri.IsWellFormedUriString(HrefLocationTextBox.Text, UriKind.Absolute)) {
+						// construct new URI
+						Uri uri = new UriBuilder(HrefLocationTextBox.Text).Uri;
+						// load page
+						WebViewContent.Navigate(uri);
+						// remove focus from TextBox and set focus on WebView
+						WebViewContent.Focus(FocusState.Programmatic);
+					}
+					else {
+						// url is not valid, search on Google instead
+						Uri uri = new Uri($"https://www.google.com/search?q={Uri.EscapeDataString(HrefLocationTextBox.Text)}");
+						// load page
+						WebViewContent.Navigate(uri);
+						// remove focus from TextBox and set focus on WebView
+						WebViewContent.Focus(FocusState.Programmatic);
+					}
 				}
 				catch (Exception err) {
 					// reset href location text box
