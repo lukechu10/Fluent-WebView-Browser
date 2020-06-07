@@ -27,19 +27,22 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{StaticResource ButtonRevealStyle}"
-                    Click="NavigationBackward">
+            <Button Grid.Column="0" Style="{StaticResource ButtonRevealStyle}" CornerRadius="2,0,0,2"
+                    Click="NavigationBackward"
+                    ToolTipService.ToolTip="Go back" ToolTipService.Placement="Bottom">
                 <SymbolIcon Symbol="Back"/>
             </Button>
-            <Button Grid.Column="1" Style="{StaticResource ButtonRevealStyle}"
-                    Click="NavigationForward">
+            <Button Grid.Column="1" Style="{StaticResource ButtonRevealStyle}" CornerRadius="0,2,2,0"
+                    Click="NavigationForward"
+                    ToolTipService.ToolTip="Go forward" ToolTipService.Placement="Bottom">
                 <SymbolIcon Symbol="Forward"/>
             </Button>
-            <Button Grid.Column="2" Style="{StaticResource ButtonRevealStyle}"
-                    Click="RefreshButton_Click">
+            <Button Grid.Column="2" Style="{StaticResource ButtonRevealStyle}" Margin="10,0,10,0"
+                    Click="RefreshButton_Click"
+                    ToolTipService.ToolTip="Refresh" ToolTipService.Placement="Bottom">
                 <SymbolIcon x:Name="RefreshSymbol" Symbol="Refresh"/>
             </Button>
-            <TextBox x:Name="HrefLocationTextBox" PlaceholderText="Enter URL here..."
+            <TextBox x:Name="HrefLocationTextBox" PlaceholderText="Search or enter url..."
                      HorizontalAlignment="Stretch" Grid.Column="3"
                      CharacterCasing="Normal" IsSpellCheckEnabled="False"
                      KeyDown="HrefLocationTextBox_KeyDown"
