@@ -73,6 +73,12 @@ namespace Fluent_WebView_Browser {
 
 		private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args) {
 			sender.TabItems.Remove(args.Tab);
+
+			if (sender.TabItems.Count == 0)
+			// no more tabs open, close the application
+			{
+				Application.Current.Exit();
+			}
 		}
 
 		private TabViewItem CreateNewTab(Uri uri) {
@@ -112,6 +118,12 @@ namespace Fluent_WebView_Browser {
 			// Only close the selected tab if it is closeable
 			if (((TabViewItem)InvokedTabView.SelectedItem).IsClosable) {
 				InvokedTabView.TabItems.Remove(InvokedTabView.SelectedItem);
+			}
+
+			if (InvokedTabView.TabItems.Count == 0)
+			// no more tabs open, close the application
+			{
+				Application.Current.Exit();
 			}
 			args.Handled = true;
 		}
