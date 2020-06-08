@@ -27,12 +27,14 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Style="{StaticResource ButtonRevealStyle}" CornerRadius="2,0,0,2"
+            <Button x:Name="NavigationBackwardButton" Grid.Column="0"
+                    Style="{StaticResource ButtonRevealStyle}" CornerRadius="2,0,0,2" IsEnabled="False"
                     Click="NavigationBackward"
                     ToolTipService.ToolTip="Go back" ToolTipService.Placement="Bottom">
                 <SymbolIcon Symbol="Back"/>
             </Button>
-            <Button Grid.Column="1" Style="{StaticResource ButtonRevealStyle}" CornerRadius="0,2,2,0"
+            <Button x:Name="NavigationForwardButton" Grid.Column="1"
+                    Style="{StaticResource ButtonRevealStyle}" CornerRadius="0,2,2,0" IsEnabled="False"
                     Click="NavigationForward"
                     ToolTipService.ToolTip="Go forward" ToolTipService.Placement="Bottom">
                 <SymbolIcon Symbol="Forward"/>

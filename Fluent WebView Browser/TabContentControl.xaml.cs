@@ -113,6 +113,11 @@ namespace Fluent_WebView_Browser {
 			//string functionString = "new MutationObserver(function () { window.external.notify(document.title); }).observe(document.querySelector('title'), { childList: true })";
 			//await WebViewContent.InvokeScriptAsync("eval", new string[] { functionString });
 			DocumentTitleChangedEvent?.Invoke(this, WebViewContent.DocumentTitle);
+
+			#region check if can navigate forward/backward and update navigate button
+			NavigationBackwardButton.IsEnabled = WebViewContent.CanGoBack;
+			NavigationForwardButton.IsEnabled = WebViewContent.CanGoForward;
+			#endregion
 		}
 
 		private void WebViewContent_NewWindowRequested(WebView sender, WebViewNewWindowRequestedEventArgs args) {
