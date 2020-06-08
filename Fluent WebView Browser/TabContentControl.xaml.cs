@@ -85,6 +85,11 @@ namespace Fluent_WebView_Browser {
 				WebViewContent.Stop();
 		}
 
+		private void UpdateNavigationButtonEnabledState() {
+			NavigationBackwardButton.IsEnabled = WebViewContent.CanGoBack;
+			NavigationForwardButton.IsEnabled = WebViewContent.CanGoForward;
+		}
+
 		private void WebViewContent_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
 			// show stop loading button instead of refresh button
 			RefreshSymbol.Symbol = Symbol.Cancel;
@@ -104,6 +109,8 @@ namespace Fluent_WebView_Browser {
 
 			// update HrefLocationTextBox
 			HrefLocationTextBox.Text = beforeHost + host + afterHost;
+
+			UpdateNavigationButtonEnabledState();
 		}
 
 		private void WebViewContent_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args) {
@@ -114,10 +121,7 @@ namespace Fluent_WebView_Browser {
 			//await WebViewContent.InvokeScriptAsync("eval", new string[] { functionString });
 			DocumentTitleChangedEvent?.Invoke(this, WebViewContent.DocumentTitle);
 
-			#region check if can navigate forward/backward and update navigate button
-			NavigationBackwardButton.IsEnabled = WebViewContent.CanGoBack;
-			NavigationForwardButton.IsEnabled = WebViewContent.CanGoForward;
-			#endregion
+			UpdateNavigationButtonEnabledState();
 		}
 
 		private void WebViewContent_NewWindowRequested(WebView sender, WebViewNewWindowRequestedEventArgs args) {
